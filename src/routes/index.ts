@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-    getUserProfiles,
-    addUserProfile,
-    updateUserProfile,
-    deleteUserProfile,
-    retrieveUserProfile,
+  getUserProfiles,
+  addUserProfile,
+  updateUserProfile,
+  deleteUserProfile,
+  retrieveUserProfile,
 } from "../controllers/userProfile";
 
 const profileRoutes: Router = Router();
