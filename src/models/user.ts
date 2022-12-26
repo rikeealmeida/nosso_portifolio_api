@@ -1,4 +1,4 @@
-import { IUserProfile } from "../../types/profile";
+import { IUser } from "../types/user";
 import { model, Schema } from "mongoose";
 
 const jobSchema: Schema = new Schema({
@@ -28,7 +28,7 @@ const jobSchema: Schema = new Schema({
   },
 });
 
-const userProfileSchema: Schema = new Schema(
+const userSchema: Schema = new Schema(
   {
     firstName: {
       type: String,
@@ -83,4 +83,4 @@ const userProfileSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default model<IUserProfile>("UserProfile", userProfileSchema);
+export default model<IUser>("User", userSchema);

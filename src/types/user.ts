@@ -1,7 +1,7 @@
 import { Document } from "mongoose";
-import { IJob } from "../types/job";
+import { IJob } from "./job";
 
-export interface IUserProfile extends Document {
+export interface IUser extends Document {
   firstName: string;
   lastName: string;
   title: string;

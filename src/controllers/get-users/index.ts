@@ -1,38 +1,35 @@
 import { Response, Request } from "express";
-import { IUserProfile } from "../../types/profile";
-import UserProfile from "../../models/userProfile";
+import { IUser } from "../../types/user";
+import User from "../../models/user";
 
-const getUserProfiles = async (req: Request, res: Response): Promise<void> => {
+const getUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const profiles: IUserProfile[] = await UserProfile.find();
+    const users: IUser[] = await User.find();
 
-    res.status(200).json(profiles);
+    res.status(200).json(users);
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-const retrieveUserProfile = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const retrieveUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
     } = req;
-    const profile: IUserProfile | null = await UserProfile.findById({
+    const user: IUser | null = await User.findById({
       _id: id,
     });
 
-    res.status(profile ? 200 : 404).json(profile);
+    res.status(user ? 200 : 404).json(user);
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
 
-const addUserProfile = async (req: Request, res: Response): Promise<void> => {
+const addUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const body = req.body;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -40,7 +37,7 @@ const addUserProfile = async (req: Request, res: Response): Promise<void> => {
       body;
     const { instagramUrl, linkedinUrl, githubUrl, telNumber, email } = rest;
 
-    const repeat = await UserProfile.aggregate([
+    const repeat = await User.aggregate([
       {
         $match: {
           $or: [
@@ -75,11 +72,11 @@ const addUserProfile = async (req: Request, res: Response): Promise<void> => {
         .status(409)
         .json({ message: `Erro, dados duplicados: ${unrepeatedFields} ` });
     } else {
-      const profile: IUserProfile = new UserProfile(body);
+      const user: IUser = new User(body);
 
-      const newProfile: IUserProfile = await profile.save();
+      const newUser: IUser = await user.save();
 
-      res.status(201).json(newProfile);
+      res.status(201).json(newUser);
     }
   } catch (error) {
     console.log(error);
@@ -87,18 +84,17 @@ const addUserProfile = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const updateUserProfile = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const {
       params: { id },
       body,
     } = req;
 
-    const updateProfile: IUserProfile | null =
-      await UserProfile.findByIdAndUpdate({ _id: id }, body);
+    const updateProfile: IUser | null = await User.findByIdAndUpdate(
+      { _id: id },
+      body
+    );
 
     res.status(updateProfile ? 200 : 404).json(updateProfile);
   } catch (error) {
@@ -107,23 +103,15 @@ const updateUserProfile = async (
   }
 };
 
-const deleteUserProfile = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+const deleteUser = async (req: Request, res: Response): Promise<void> => {
   try {
-    const deletedProfile: IUserProfile | null =
-      await UserProfile.findByIdAndRemove(req.params.id);
+    const deletedProfile: IUser | null = await User.findByIdAndRemove(
+      req.params.id
+    );
     res.status(204).json(deletedProfile);
   } catch (error) {
     console.log(error);
     throw error;
   }
 };
-export {
-  getUserProfiles,
-  retrieveUserProfile,
-  addUserProfile,
-  updateUserProfile,
-  deleteUserProfile,
-};
+export { getUser, retrieveUser, addUser, updateUser, deleteUser };
