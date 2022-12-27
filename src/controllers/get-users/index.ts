@@ -29,60 +29,60 @@ const retrieveUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const addUser = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const body = req.body;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { firstName, lastName, title, imageUrl, resume, jobs, ...rest } =
-      body;
-    const { instagramUrl, linkedinUrl, githubUrl, telNumber, email } = rest;
+// const addUser = async (req: Request, res: Response): Promise<void> => {
+//   try {
+//     const body = req.body;
+//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//     const { firstName, lastName, title, imageUrl, resume, jobs, ...rest } =
+//       body;
+//     const { instagramUrl, linkedinUrl, githubUrl, telNumber, email } = rest;
 
-    const repeat = await User.aggregate([
-      {
-        $match: {
-          $or: [
-            { instagramUrl },
-            { linkedinUrl },
-            { githubUrl },
-            { telNumber },
-            { email },
-          ],
-        },
-      },
-    ]);
+//     const repeat = await User.aggregate([
+//       {
+//         $match: {
+//           $or: [
+//             { instagramUrl },
+//             { linkedinUrl },
+//             { githubUrl },
+//             { telNumber },
+//             { email },
+//           ],
+//         },
+//       },
+//     ]);
 
-    if (repeat.length > 0) {
-      const repeatedFields = repeat
-        .map((user) => {
-          const repeated = [];
-          for (const key in user) {
-            if (user[key] === rest[key]) {
-              repeated.push(key);
-            }
-          }
-          return repeated;
-        })
-        .reduce((prev, current) => {
-          return [...prev, ...current];
-        }, []);
+//     if (repeat.length > 0) {
+//       const repeatedFields = repeat
+//         .map((user) => {
+//           const repeated = [];
+//           for (const key in user) {
+//             if (user[key] === rest[key]) {
+//               repeated.push(key);
+//             }
+//           }
+//           return repeated;
+//         })
+//         .reduce((prev, current) => {
+//           return [...prev, ...current];
+//         }, []);
 
-      const unrepeatedFields = [...new Set(repeatedFields)];
+//       const unrepeatedFields = [...new Set(repeatedFields)];
 
-      res
-        .status(409)
-        .json({ message: `Erro, dados duplicados: ${unrepeatedFields} ` });
-    } else {
-      const user: IUser = new User(body);
+//       res
+//         .status(409)
+//         .json({ message: `Erro, dados duplicados: ${unrepeatedFields} ` });
+//     } else {
+//       const user: IUser = new User(body);
 
-      const newUser: IUser = await user.save();
+//       const newUser: IUser = await user.save();
 
-      res.status(201).json(newUser);
-    }
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+//       res.status(201).json(newUser);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// };
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -114,4 +114,10 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
     throw error;
   }
 };
-export { getUser, retrieveUser, addUser, updateUser, deleteUser };
+export {
+  getUser,
+  retrieveUser,
+  // addUser,
+  updateUser,
+  deleteUser,
+};
