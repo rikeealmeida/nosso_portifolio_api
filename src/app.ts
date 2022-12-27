@@ -5,33 +5,44 @@ import menuRoutes from "./routes";
 import { config } from "dotenv";
 import { MongoGetUsersRepository } from "./repositories/get-users/mongo-get-users";
 import { GetUsersController } from "./controllers/get-users/get-users";
+import { MongoClient } from "./database/mongo";
 
-config();
+// app.use(menuRoutes);
 
-const app = express();
+const main = async () => {
+  config();
+  const app = express();
 
-const PORT: string | number = process.env.PORT || 8000;
+  app.use(cors());
 
-app.use(cors());
-app.use(express.json());
-app.use(menuRoutes);
+  app.use(express.json());
 
-const uri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}:${process.env.MONGO_PORT}/?authMechanism=DEFAULT`;
-app.get("/users", async (req, res) => {
-  const mongoGetUsersRepository = new MongoGetUsersRepository();
-  const getUsersController = new GetUsersController(mongoGetUsersRepository);
-  const { body, statusCode } = await getUsersController.handle();
+  await MongoClient.connect();
 
-  res.send(body).status(statusCode);
-});
+  app.get("/users", async (req, res) => {
+    const mongoGetUsersRepository = new MongoGetUsersRepository();
+    const getUsersController = new GetUsersController(mongoGetUsersRepository);
+    const { body, statusCode } = await getUsersController.handle();
 
-mongoose
-  .connect(uri)
-  .then(() =>
-    app.listen(PORT, () =>
-      console.log(`Server running on http://localhost:${PORT}`)
-    )
-  )
-  .catch((error) => {
-    throw error;
+    res.send(body).status(statusCode);
   });
+
+  const PORT: string | number = process.env.PORT || 8000;
+
+  app.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`)
+  );
+};
+main();
+// const uri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_URL}/?authMechanism=DEFAULT`;
+
+// mongoose
+//   .connect(uri)
+//   .then(() =>
+//     app.listen(PORT, () =>
+//       console.log(`Server running on http://localhost:${PORT}`)
+//     )
+//   )
+//   .catch((error) => {
+//     throw error;
+//   });
