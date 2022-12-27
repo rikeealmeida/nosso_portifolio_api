@@ -5,5 +5,5 @@ export interface IGetUsersController {
   handle(): Promise<HttpResponse<IUser[]>>;
 }
 export interface IGetUsersRepository {
-  getUsers(): Promise<IUser>[];
+  getUsers(): Promise<IUser[]>;
 }
