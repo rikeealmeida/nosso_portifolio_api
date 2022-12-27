@@ -2,6 +2,7 @@ import { Document } from "mongoose";
 import { IJob } from "./job";
 
 export interface IUser {
+  id: string;
   firstName: string;
   lastName: string;
   title: string;
