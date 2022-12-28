@@ -4,6 +4,7 @@ export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
+  password: string;
   title: string;
   imageUrl: string;
   linkedinUrl: string;

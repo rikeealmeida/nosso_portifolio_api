@@ -1,3 +1,4 @@
+import validator from "validator";
 import { IUser } from "../../models/user";
 import { HttpRequest, HttpResponse } from "../protocols";
 import {
@@ -12,14 +13,35 @@ export class CreateUserController implements ICreateUserController {
     httpRequest: HttpRequest<CreateUserParams>
   ): Promise<HttpResponse<IUser>> {
     try {
-      if (!httpRequest.body) {
+      const requiredFields = [
+        "firstName",
+        "lastName",
+        "email",
+        "password",
+        "title",
+        "imageUrl",
+      ];
+      for (const field of requiredFields) {
+        if (!httpRequest?.body?.[field as keyof CreateUserParams]?.length)
+          return {
+            statusCode: 400,
+            body: `Field ${field} is required`,
+          };
+      }
+
+      const emailIsValid = validator.isEmail(httpRequest.body!.email);
+
+      if (!emailIsValid) {
         return {
-          statusCode: 400,
-          body: "Please specify a body",
+          statusCode: 500,
+          body: "email is not valid",
         };
       }
 
-      const user = await this.createuserRepository.createUser(httpRequest.body);
+      const user = await this.createuserRepository.createUser(
+        httpRequest.body!
+      );
+
       return {
         statusCode: 201,
         body: user,

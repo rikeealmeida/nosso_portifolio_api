@@ -7,11 +7,16 @@ export const MongoClient = {
     const url = process.env.MONGO_URL || "localhost:27018";
     const username = process.env.MONGO_USERNAME;
     const password = process.env.MONGO_PASSWORD;
-    const client = new Mongo(url, { auth: { username, password } });
-    const db = client.db("portifolio-db");
 
-    this.client = client;
-    this.db = db;
-    console.log("connected to mongodb!");
+    try {
+      const client = new Mongo(url, { auth: { username, password } });
+      await client.connect();
+      const db = client.db("portifolio-db");
+      this.client = client;
+      this.db = db;
+      console.log("connected to mongodb!");
+    } catch (error) {
+      console.log("cant connect to mongodb!");
+    }
   },
 };
