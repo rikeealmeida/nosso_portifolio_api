@@ -1,12 +1,5 @@
 import { IUser } from "../../models/user";
 import { IJob } from "../../types/job";
-import { HttpRequest, HttpResponse } from "../protocols";
-
-export interface ICreateUserController {
-  handle(
-    httpRequest: HttpRequest<CreateUserParams>
-  ): Promise<HttpResponse<IUser>>;
-}
 
 export interface CreateUserParams {
   firstName: string;
