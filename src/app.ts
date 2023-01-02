@@ -19,7 +19,11 @@ const main = async () => {
 
   app.use(express.json());
 
-  await MongoClient.connect();
+  const PORT: string | number = process.env.PORT || 8000;
+
+  await MongoClient.connect().then(() => app.listen(PORT, () =>
+    console.log(`Server running on http://localhost:${PORT}`)
+  ));
 
   app.get("/users", async (req, res) => {
     const mongoGetUsersRepository = new MongoGetUsersRepository();
@@ -65,11 +69,5 @@ const main = async () => {
     });
     res.status(statusCode).send(body);
   });
-
-  const PORT: string | number = process.env.PORT || 8000;
-
-  app.listen(PORT, () =>
-    console.log(`Server running on http://localhost:${PORT}`)
-  );
 };
 main();

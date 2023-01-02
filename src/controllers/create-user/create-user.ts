@@ -4,7 +4,7 @@ import { HttpRequest, HttpResponse, IController } from "../protocols";
 import { CreateUserParams, ICreateUserRepository } from "./protocols";
 
 export class CreateUserController implements IController {
-  constructor(private readonly createuserRepository: ICreateUserRepository) {}
+  constructor(private readonly createuserRepository: ICreateUserRepository) { }
   async handle(
     httpRequest: HttpRequest<CreateUserParams>
   ): Promise<HttpResponse<IUser>> {
@@ -24,8 +24,14 @@ export class CreateUserController implements IController {
             body: `Field ${field} is required`,
           };
       }
+      if (!httpRequest.body) {
+        return {
+          statusCode: 400,
+          body: 'Missing fields!'
+        }
+      }
 
-      const emailIsValid = validator.isEmail(httpRequest.body!.email);
+      const emailIsValid = validator.isEmail(httpRequest.body.email);
 
       if (!emailIsValid) {
         return {
@@ -35,7 +41,7 @@ export class CreateUserController implements IController {
       }
 
       const user = await this.createuserRepository.createUser(
-        httpRequest.body!
+        httpRequest.body
       );
 
       return {

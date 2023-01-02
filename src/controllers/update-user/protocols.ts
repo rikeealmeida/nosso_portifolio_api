@@ -1,6 +1,5 @@
 import { IUser } from "../../models/user";
 import { IJob } from "../../types/job";
-import { HttpRequest, HttpResponse } from "../protocols";
 export interface UpdateUserParams {
   firstName?: string;
   lastName?: string;
@@ -13,10 +12,6 @@ export interface UpdateUserParams {
   telNumber?: string;
   resume?: string;
   jobs?: IJob[];
-}
-
-export interface IUpdateUserController {
-  handle(httpRequest: HttpRequest<any>): Promise<HttpResponse<IUser>>;
 }
 
 export interface IUpdateUserRepository {
