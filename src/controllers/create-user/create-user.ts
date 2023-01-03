@@ -23,10 +23,7 @@ export class CreateUserController implements IController {
           return badRequest(`Field ${field} is required`)
       }
       if (!httpRequest.body) {
-        return {
-          statusCode: 400,
-          body: 'Missing fields!'
-        }
+        return badRequest("Missing fields!")
       }
 
       const emailIsValid = validator.isEmail(httpRequest.body.email);
