@@ -12,9 +12,11 @@ export interface HttpRequest<B> {
 
 export enum HttpStatusCode {
   OK = 200,
+  CREATED = 201,
   BAD_REQUEST = 400,
+  UNAUTHORIZED_ERROR = 401,
+  NOT_FOUND_ERROR = 404,
   SERVER_ERROR = 500,
-  CREATED = 201
 }
 
 export interface IController {

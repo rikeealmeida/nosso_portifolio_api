@@ -1,10 +1,10 @@
 import {
   CreateUserParams,
   ICreateUserRepository,
-} from "../../controllers/create-user/protocols";
-import { MongoClient } from "../../database/mongo";
-import { IUser } from "../../models/user";
-import { MongoUser } from "../mongo-protocols";
+} from "../../../controllers/user/create-user/protocols";
+import { MongoClient } from "../../../database/mongo";
+import { IUser } from "../../../interfaces/user";
+import { MongoUser } from "../../mongo-protocols";
 
 export class MongoCreateUserRepository implements ICreateUserRepository {
   async createUser(params: CreateUserParams): Promise<IUser> {

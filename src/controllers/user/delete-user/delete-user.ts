@@ -1,6 +1,7 @@
-import { IUser } from "../../models/user";
-import { badRequest, ok, serverError } from "../helpers";
-import { HttpRequest, HttpResponse, IController } from "../protocols";
+
+import { IUser } from "../../../interfaces/user";
+import { badRequest, ok, serverError } from "../../../helpers/helpers";
+import { IController, HttpRequest, HttpResponse } from "../../protocols";
 import { IDeleteUserRepository } from "./protocols";
 
 export class DeleteUserController implements IController {

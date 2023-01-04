@@ -1,3 +1,3 @@
-import { IUser } from "../models/user";
+import { IUser } from "../interfaces/user";
 
 export type MongoUser = Omit<IUser, "id">

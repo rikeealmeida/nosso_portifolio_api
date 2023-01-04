@@ -1,4 +1,5 @@
-import { IUser } from "../../models/user";
+import { IUser } from "../../../interfaces/user";
+
 
 export interface IDeleteUserRepository {
   deleteUser(id: string): Promise<IUser>;

@@ -1,5 +1,6 @@
-import { IUser } from "../../models/user";
-import { IJob } from "../../types/job";
+import { IJob } from "../../../interfaces/job";
+import { IUser } from "../../../interfaces/user";
+
 export interface UpdateUserParams {
   firstName?: string;
   lastName?: string;

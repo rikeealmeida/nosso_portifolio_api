@@ -1,4 +1,4 @@
-import { IJob } from "../types/job";
+import { IJob } from "./job";
 
 export interface IUser {
   id: string;

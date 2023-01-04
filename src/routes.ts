@@ -1,13 +1,16 @@
-import express from 'express'
-import { CreateUserController } from './controllers/create-user/create-user';
-import { DeleteUserController } from './controllers/delete-user/delete-user';
-import { GetUsersController } from './controllers/get-users/get-users';
-import { UpdateUserController } from './controllers/update-user/update-user';
-import { MongoCreateUserRepository } from './repositories/create-user/mongo-create-user.';
-import { MongoDeleteUserRepository } from './repositories/delete-user/mongo-delete-user';
-import { MongoGetUsersRepository } from './repositories/get-users/mongo-get-users';
-import { MongoUpdateUserRepository } from './repositories/update-user/mongo-update-user';
-export const routes = express.Router()
+import { Router } from 'express'
+import { CreateUserController } from './controllers/user/create-user/create-user';
+import { DeleteUserController } from './controllers/user/delete-user/delete-user';
+import { GetUserController } from './controllers/user/get-user/get-user';
+import { GetUsersController } from './controllers/user/get-users/get-users';
+import { UpdateUserController } from './controllers/user/update-user/update-user';
+import { MongoCreateUserRepository } from './repositories/user/create-user/mongo-create-user.';
+import { MongoDeleteUserRepository } from './repositories/user/delete-user/mongo-delete-user';
+import { MongoGetUserRepository } from './repositories/user/get-user/mongo-get-user';
+import { MongoGetUsersRepository } from './repositories/user/get-users/mongo-get-users';
+import { MongoUpdateUserRepository } from './repositories/user/update-user/mongo-update-user';
+
+export const routes = Router()
 
 
 routes.get("/users", async (req, res) => {
@@ -17,6 +20,15 @@ routes.get("/users", async (req, res) => {
 
     res.status(statusCode).send(body);
 });
+
+routes.get("/users/:id", async (req, res) => {
+    const mongoGetUserRepository = new MongoGetUserRepository()
+    const getUserController = new GetUserController(mongoGetUserRepository)
+    const { body, statusCode } = await getUserController.handle({
+        params: req.params
+    })
+    res.status(statusCode).send(body)
+})
 
 routes.post("/users", async (req, res) => {
     const mongoCreateUserRepository = new MongoCreateUserRepository();

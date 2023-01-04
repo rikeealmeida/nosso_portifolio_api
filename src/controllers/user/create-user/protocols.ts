@@ -1,9 +1,10 @@
-import { IUser } from "../../models/user";
-import { IJob } from "../../types/job";
+import { IUser } from "../../../interfaces/user";
+import { IJob } from "../../../interfaces/job";
 
 export interface CreateUserParams {
   firstName: string;
   lastName: string;
+  password: string;
   title: string;
   imageUrl: string;
   linkedinUrl: string;
