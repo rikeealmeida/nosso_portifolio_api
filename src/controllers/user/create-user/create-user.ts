@@ -16,9 +16,7 @@ export class CreateUserController implements IController {
         "firstName",
         "lastName",
         "email",
-        "password",
-        "title",
-        "imageUrl",
+        "password"
       ];
       for (const field of requiredFields) {
         if (!httpRequest?.body?.[field as keyof CreateUserParams]?.length)
