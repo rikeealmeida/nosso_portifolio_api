@@ -8,6 +8,6 @@ services:
     environment:
       MONGO_INITDB_DATABASE: portifolio
       MONGO_INITDB_ROOT_USERNAME: rick
-      MONGO_INITDB_ROOT_PASSWORD: 533456
+      MONGO_INITDB_ROOT_PASSWORD: 1234
     ports:
       - 27018:27017
