@@ -4,6 +4,7 @@ import { DeleteUserController } from './controllers/user/delete-user/delete-user
 import { GetUserController } from './controllers/user/get-user/get-user';
 import { GetUsersController } from './controllers/user/get-users/get-users';
 import { UpdateUserController } from './controllers/user/update-user/update-user';
+import { UserLoginController } from './controllers/user/user-login/user-login';
 import { MongoCreateUserRepository } from './repositories/user/create-user/mongo-create-user.';
 import { MongoDeleteUserRepository } from './repositories/user/delete-user/mongo-delete-user';
 import { MongoGetUserRepository } from './repositories/user/get-user/mongo-get-user';
@@ -65,4 +66,14 @@ routes.delete("/users/:id", async (req, res) => {
         params: req.params,
     });
     res.status(statusCode).send(body);
+});
+
+routes.post("/login", async (req, res) => {
+    const loginController = new UserLoginController()
+
+    const { body, statusCode } = await loginController.handle({
+        body: req.body,
+        params: req.params
+    });
+    res.status(statusCode).send(body)
 });
